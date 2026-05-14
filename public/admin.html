@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Mahlatse</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body style="background: #f0f2f5;">
+
+  <!-- ADMIN HEADER -->
+  <div class="admin-header">
+    <h1>🔑 Admin Dashboard</h1>
+    <p>Mahlatse Ragophala | Demo Site</p>
+    <a href="index.html" class="btn btn-outline" style="font-size: 14px;">← Back to Site</a>
+  </div>
+
+  <!-- DASHBOARD CONTENT -->
+  <div class="section">
+
+    <!-- STATS -->
+    <h2 style="margin-bottom: 20px; color: #1a1a2e;">📊 Site <span style="color: #e94560;">Statistics</span></h2>
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <h2 id="totalVisitors">...</h2>
+        <p>Total Visitors</p>
+      </div>
+      <div class="stat-card">
+        <h2 id="totalMessages">...</h2>
+        <p>Total Messages</p>
+      </div>
+      <div class="stat-card">
+        <h2 id="siteStatus">...</h2>
+        <p>Site Status</p>
+      </div>
+    </div>
+
+    <!-- MESSAGES TABLE -->
+    <h2 style="margin-bottom: 20px; color: #1a1a2e;">📬 Received <span style="color: #e94560;">Messages</span></h2>
+    <table class="messages-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="messagesBody">
+        <tr>
+          <td colspan="5" style="text-align: center; padding: 30px; color: #999;">
+            Loading messages...
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- REFRESH BUTTON -->
+    <div style="text-align: center; margin-top: 25px;">
+      <button class="btn btn-primary" onclick="loadAll()">🔄 Refresh Data</button>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 <span>Mahlatse Ragophala</span> | Admin Panel</p>
+  </footer>
+
+  <script>
+    function loadStats() {
+      fetch('http://localhost:3000/api/admin/stats')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('totalVisitors').textContent = data.totalVisitors;
+          document.getElementById('totalMessages').textContent = data.totalMessages;
+          document.getElementById('siteStatus').textContent = '✅';
+        })
+        .catch(() => {
+          document.getElementById('siteStatus').textContent = '❌';
+        });
+    }
+
+    function loadMessages() {
+      fetch('http://localhost:3000/api/admin/messages')
+        .then(res => res.json())
+        .then(data => {
+          const tbody = document.getElementById('messagesBody');
+          if (data.messages.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">No messages yet. Go to Contact page and send one!</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.messages.map(msg => `
+            <tr>
+              <td><span class="badge">${msg.id}</span></td>
+              <td>${msg.name}</td>
+              <td>${msg.email}</td>
+              <td>${msg.message}</td>
+              <td>${msg.date}</td>
+            </tr>
+          `).join('');
+        });
+    }
+
+    function loadAll() {
+      loadStats();
+      loadMessages();
+    }
+
+    // Load on page open
+    loadAll();
+
+    // Auto refresh every 10 seconds
+    setInterval(loadAll, 10000);
+  </script>
+
+</body>
+</html>

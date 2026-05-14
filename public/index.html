@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mahlatse Ragophala | Home</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="logo">MR.</a>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="portfolio.html">Portfolio</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <div class="hero">
+    <h1>Hi, I'm <span>Mahlatse Ragophala</span> 👋</h1>
+    <p>Welcome to my Demo Website | Developer & Creator</p>
+    <div class="hero-btns">
+      <a href="portfolio.html" class="btn btn-primary">View My Work</a>
+      <a href="contact.html" class="btn btn-outline">Contact Me</a>
+    </div>
+  </div>
+
+  <!-- VISITOR COUNTER -->
+  <div style="padding: 40px;">
+    <div class="visitor-box">
+      <p>Total Visitors</p>
+      <h2 id="visitorCount">...</h2>
+      <p>People visited this site</p>
+    </div>
+  </div>
+
+  <!-- WHAT I DO SECTION -->
+  <div class="section">
+    <h2 class="section-title">What I <span>Do</span></h2>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">💻</div>
+        <h3>Web Development</h3>
+        <p>Building modern, fast and responsive websites using the latest technologies.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <h3>UI/UX Design</h3>
+        <p>Designing beautiful and user-friendly interfaces that people love to use.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <h3>Backend Systems</h3>
+        <p>Creating powerful backend systems and APIs to run your applications smoothly.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2024 <span>Mahlatse Ragophala</span> | All Rights Reserved</p>
+  </footer>
+
+  <script>
+    // Fetch visitor count from backend
+    fetch('http://localhost:3000/api/welcome')
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('visitorCount').textContent = data.visitors;
+      })
+      .catch(err => {
+        document.getElementById('visitorCount').textContent = 'N/A';
+      });
+  </script>
+
+</body>
+</html>
